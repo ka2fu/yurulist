@@ -3,6 +3,7 @@ import 'package:uuid/uuid.dart';
 
 import 'package:yuruli/model/entity/todo.dart';
 import 'package:yuruli/model/repository/todo_repository.dart';
+import 'package:yuruli/model/list_change_date.dart';
 
 class TodoDetailViewModel extends ChangeNotifier {
   late final TodoRepository _repository;
@@ -48,7 +49,14 @@ class TodoDetailViewModel extends ChangeNotifier {
   }
 
   Future save() async {
+    List<Todo> todos = await _repository.loadTodos(Todo.setState('today'));
     _todo.createdAt = DateTime.now();
+    if (todos.isEmpty) {
+      Preference.setIntValue(Todo.setState('first'), _todo.createdAt);
+    }
+    // けす
+    await Preference.getIntValue(Todo.setState('first'))
+        .then((int value) => debugPrint(value.toString()));
     _todo.state = Todo.setState('today');
     return await _repository.insert(_todo);
   }

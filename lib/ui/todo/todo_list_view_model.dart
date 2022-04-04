@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'package:yuruli/model/entity/todo.dart';
 import 'package:yuruli/model/repository/todo_repository.dart';
@@ -8,6 +9,7 @@ class TodoListViewModel extends ChangeNotifier {
 
   TodoListViewModel(this._repository) {
     loadTodos();
+    checkExpireTime();
   }
 
   List<Todo> _todos = [];
@@ -17,11 +19,7 @@ class TodoListViewModel extends ChangeNotifier {
 
   void loadTodos() async {
     _startLoading();
-    //　けす
-    debugPrint('todo mae');
     _todos = await _repository.loadTodos(Todo.setState('today'));
-    // けす
-    debugPrint('todo ato');
     _finishLoading();
   }
 
@@ -33,5 +31,14 @@ class TodoListViewModel extends ChangeNotifier {
   void _finishLoading() {
     _isLoading = false;
     notifyListeners();
+  }
+
+  void checkExpireTime() {
+    DateTime _homeBuildTime = DateTime.now();
+    var formatter = DateFormat('yyyyMMddHHmm', 'ja-JP');
+    int _homeBuildTimeInt = int.parse(formatter.format(_homeBuildTime));
+
+    // けす
+    debugPrint('home screen build time: $_homeBuildTimeInt');
   }
 }

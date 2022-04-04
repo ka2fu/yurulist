@@ -12,6 +12,7 @@ class Todo {
     'today': 'today',
     'done': 'done',
     'yesterday': 'yesterday',
+    'first': 'firstStateTime',
   };
 
   static setState(String str) {
