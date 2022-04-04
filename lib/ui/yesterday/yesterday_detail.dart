@@ -18,6 +18,10 @@ class YesterdayDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const FaIcon(FontAwesomeIcons.angleLeft),
+        ),
         title: const Text(
           'done detail',
           style: TextStyle(fontWeight: FontWeight.bold),

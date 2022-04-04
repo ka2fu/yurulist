@@ -51,6 +51,7 @@ class Utils {
     );
   }
 
+  /// Utils.goToHomeScreen(context, HomePage(removeUntilIndex: TodoList.index));
   static void goToHomeScreen(BuildContext context, dynamic toPage) {
     Navigator.pushAndRemoveUntil(
       context,

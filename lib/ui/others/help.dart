@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HelpPage extends StatelessWidget {
   static Route<dynamic> route() {
@@ -21,6 +22,10 @@ class HelpPage extends StatelessWidget {
     ];
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const FaIcon(FontAwesomeIcons.angleLeft),
+        ),
         title: const Text(
           'ヘルプ',
           style: TextStyle(fontWeight: FontWeight.bold),

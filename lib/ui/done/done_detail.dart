@@ -79,6 +79,10 @@ class _DoneDetailPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const FaIcon(FontAwesomeIcons.angleLeft),
+        ),
         title: const Text(
           '達成したToDoの確認',
           style: TextStyle(

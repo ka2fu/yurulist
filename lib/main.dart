@@ -68,7 +68,8 @@ class _HomePageState extends State<HomePage> {
     const BottomNavigationBarItem(
         icon: FaIcon(FontAwesomeIcons.house), label: 'today'),
     const BottomNavigationBarItem(
-        icon: FaIcon(FontAwesomeIcons.rightFromBracket), label: 'yesterday'),
+        icon: FaIcon(FontAwesomeIcons.calendarCheck), label: 'yesterday'),
+        // icon: FaIcon(FontAwesomeIcons.rightFromBracket), label: 'yesterday'),
   ];
 
   @override

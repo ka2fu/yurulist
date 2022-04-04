@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:yuruli/model/db/todo_database.dart';
 
+import 'package:yuruli/model/db/todo_database.dart';
 import 'package:yuruli/model/entity/todo.dart';
 import 'package:yuruli/model/repository/todo_repository.dart';
 import 'package:yuruli/ui/done/done_detail.dart';

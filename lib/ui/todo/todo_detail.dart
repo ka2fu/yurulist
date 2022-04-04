@@ -137,6 +137,10 @@ class _TodoDetailPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => Utils.goToHomeScreen(context, HomePage(removeUntilIndex: TodoList.index)),
+          icon: const FaIcon(FontAwesomeIcons.angleLeft),
+        ),
         title: Text(
           vm.isNew ? '新規ToDoを作成' : 'ToDoを編集',
           style: const TextStyle(
