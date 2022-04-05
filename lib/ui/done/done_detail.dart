@@ -68,7 +68,7 @@ class _DoneDetailPage extends StatelessWidget {
 
   void _update(BuildContext context, DoneDetailViewModel vm) async {
     Utils.showIndicator(context);
-    vm.setState(Todo.setState('today'));
+    vm.setState(Todo.findState('today'));
     await vm.update();
     Utils.goToHomeScreen(context, HomePage(removeUntilIndex: DoneList.index));
   }
@@ -80,7 +80,7 @@ class _DoneDetailPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Utils.goToHomeScreen(context, HomePage(removeUntilIndex: DoneList.index)),
           icon: const FaIcon(FontAwesomeIcons.angleLeft),
         ),
         title: const Text(

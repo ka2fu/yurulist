@@ -35,6 +35,10 @@ class HomeAppBar extends StatelessWidget {
 }
 
 class Utils {
+  static int todayExpireDiff = 1;
+  static int yesterdayExpireDiff = 1;
+  static String expireTimeFormat = 'yyyyMMddHHmm';
+
   static void showIndicator(BuildContext context) {
     showGeneralDialog(
       context: context,

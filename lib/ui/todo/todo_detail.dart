@@ -178,7 +178,7 @@ class _TodoDetailPage extends StatelessWidget {
       children: <Widget>[
         ElevatedButton(
           onPressed: () => {
-            vm.setState(Todo.setState('done')),
+            vm.setState(Todo.findState('done')),
             _update(context, vm),
           },
           child: Container(

@@ -12,10 +12,11 @@ class Todo {
     'today': 'today',
     'done': 'done',
     'yesterday': 'yesterday',
-    'first': 'firstStateTime',
+    'et': 'earliestTodayTime',
+    'ey': 'earliestYesterdayTime',
   };
 
-  static setState(String str) {
+  static findState(String str) {
     try {
       if (!states.containsKey(str)) throw Error;
       return states[str];

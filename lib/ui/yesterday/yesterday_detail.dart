@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:yuruli/main.dart';
+import 'package:yuruli/ui/yesterday/yesterday_list.dart';
+import 'package:yuruli/util/home_utils.dart';
 
 class YesterdayDetailPage extends StatelessWidget {
   static Route<dynamic> route() {
@@ -19,11 +21,12 @@ class YesterdayDetailPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Utils.goToHomeScreen(
+              context, HomePage(removeUntilIndex: YesterdayList.index)),
           icon: const FaIcon(FontAwesomeIcons.angleLeft),
         ),
         title: const Text(
-          'done detail',
+          'yesterday detail',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),

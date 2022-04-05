@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:yuruli/model/db/todo_database.dart';
+import 'package:yuruli/model/repository/todo_repository.dart';
 
 import 'package:yuruli/ui/done/done_list.dart';
 import 'package:yuruli/ui/todo/todo_list.dart';
@@ -69,23 +71,27 @@ class _HomePageState extends State<HomePage> {
         icon: FaIcon(FontAwesomeIcons.house), label: 'today'),
     const BottomNavigationBarItem(
         icon: FaIcon(FontAwesomeIcons.calendarCheck), label: 'yesterday'),
-        // icon: FaIcon(FontAwesomeIcons.rightFromBracket), label: 'yesterday'),
+    // icon: FaIcon(FontAwesomeIcons.rightFromBracket), label: 'yesterday'),
   ];
 
   @override
   void initState() {
     super.initState();
     _selectedIndex = widget.removeUntilIndex;
+    debugPrint('home initstate');
   }
 
   void _onTapChange(int index) {
     setState(() {
       _selectedIndex = index;
+      debugPrint('home ontapchange');
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    // final vm = MainViewModel(TodoRepository(TodoDatabase()));
+    debugPrint('home build');
     return Scaffold(
       body: _pages.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
@@ -95,5 +101,22 @@ class _HomePageState extends State<HomePage> {
         onTap: _onTapChange,
       ),
     );
+
+    // if (vm.isLoading) {
+    //   return const Center(child: CircularProgressIndicator());
+    // }
+
+    // return ChangeNotifierProvider(
+    //   create: (_) => vm,
+    //   child: Scaffold(
+    //     body: _pages.elementAt(_selectedIndex),
+    //     bottomNavigationBar: BottomNavigationBar(
+    //       items: _bottomNavItems,
+    //       currentIndex: _selectedIndex,
+    //       type: BottomNavigationBarType.fixed,
+    //       onTap: _onTapChange,
+    //     ),
+    //   ),
+    // );
   }
 }

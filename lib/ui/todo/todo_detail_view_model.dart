@@ -49,15 +49,22 @@ class TodoDetailViewModel extends ChangeNotifier {
   }
 
   Future save() async {
-    List<Todo> todos = await _repository.loadTodos(Todo.setState('today'));
+    // List<Todo> todos = await _repository.loadTodos(Todo.findState('today'));
     _todo.createdAt = DateTime.now();
-    if (todos.isEmpty) {
-      Preference.setIntValue(Todo.setState('first'), _todo.createdAt);
+
+    late int earliestTodayTime;
+    await Preference.getIntValue(Todo.findState('et')).then((value) {
+      earliestTodayTime = value;
+    });
+
+    if (earliestTodayTime == 0) {
+      Preference.setIntValue(Todo.findState('et'), _todo.createdAt);
     }
     // けす
-    await Preference.getIntValue(Todo.setState('first'))
+    await Preference.getIntValue(Todo.findState('et'))
         .then((int value) => debugPrint(value.toString()));
-    _todo.state = Todo.setState('today');
+
+    _todo.state = Todo.findState('today');
     return await _repository.insert(_todo);
   }
 
