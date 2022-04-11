@@ -3,7 +3,7 @@ import 'package:uuid/uuid.dart';
 
 import 'package:yuruli/model/entity/todo.dart';
 import 'package:yuruli/model/repository/todo_repository.dart';
-import 'package:yuruli/model/list_change_date.dart';
+import 'package:yuruli/model/preference_data.dart';
 
 class TodoDetailViewModel extends ChangeNotifier {
   late final TodoRepository _repository;
@@ -46,6 +46,28 @@ class TodoDetailViewModel extends ChangeNotifier {
   void setState(String state) {
     _todo.state = state;
     notifyListeners();
+  }
+
+  Future getTotalDoneScore() async {
+    /// 一回totalDoneScoreを取得
+    // late int totalScore;
+    await Preference.getIntValue(Todo.findState('tds')).then((value) {
+      debugPrint('todal done score: $value');
+    });
+  }
+
+  Future done() async {
+    setState(Todo.findState('done'));
+    _repository.update(todo);
+
+    // /// 一回totalDoneScoreを取得
+    late int totalScore;
+    await Preference.getIntValue(Todo.findState('tds')).then((value) {
+      totalScore = value;
+    });
+
+    /// 新しく保存
+    Preference.setTodalDoneScore(Todo.findState('tds'), totalScore + todo.score);
   }
 
   Future save() async {

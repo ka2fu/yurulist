@@ -4,19 +4,16 @@ import 'package:intl/intl.dart';
 import 'package:yuruli/util/home_utils.dart';
 
 class Preference {
-  // static getInt(String key) async {
-  //   late int value;
-  //   await _getIntValue(key).then((int res) {
-  //     value = res;
-  //   });
-  //   return value;
-  // }
-
   static Future<int> getIntValue(String key) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var value = prefs.getInt(key);
     if (value == null) return 0;
     return value;
+  }
+
+  static void setTodalDoneScore(String key, int score) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt(key, score);
   }
 
   static void setIntValue(String key, DateTime value) async {

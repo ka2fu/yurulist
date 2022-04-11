@@ -14,6 +14,7 @@ class Todo {
     'yesterday': 'yesterday',
     'et': 'earliestTodayTime',
     'ey': 'earliestYesterdayTime',
+    'tds': 'totalDoneScore',
   };
 
   static findState(String str) {

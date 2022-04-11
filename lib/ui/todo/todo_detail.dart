@@ -125,6 +125,13 @@ class _TodoDetailPage extends StatelessWidget {
     Utils.goToHomeScreen(context, HomePage(removeUntilIndex: TodoList.index));
   }
 
+  void _done(BuildContext context, TodoDetailViewModel vm) async {
+    Utils.showIndicator(context);
+    await vm.done();
+    await vm.getTotalDoneScore(); // debug用
+    Utils.goToHomeScreen(context, HomePage(removeUntilIndex: TodoList.index));
+  }
+
   void _delete(BuildContext context, TodoDetailViewModel vm) async {
     Utils.showIndicator(context);
     await vm.delete();
@@ -138,7 +145,8 @@ class _TodoDetailPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () => Utils.goToHomeScreen(context, HomePage(removeUntilIndex: TodoList.index)),
+          onPressed: () => Utils.goToHomeScreen(
+              context, HomePage(removeUntilIndex: TodoList.index)),
           icon: const FaIcon(FontAwesomeIcons.angleLeft),
         ),
         title: Text(
@@ -173,13 +181,15 @@ class _TodoDetailPage extends StatelessWidget {
     if (vm.isNew) return const SizedBox(height: 0);
 
     final _width = MediaQuery.of(context).size.width;
+    // debugPrint('mediaquery width: ${_width.rune@timeType.toString()}');
 
     return Column(
       children: <Widget>[
         ElevatedButton(
           onPressed: () => {
-            vm.setState(Todo.findState('done')),
-            _update(context, vm),
+            // vm.setState(Todo.findState('done')),
+            // _update(context, vm),
+            _done(context, vm),
           },
           child: Container(
             width: _width * 0.65,
@@ -297,6 +307,12 @@ class SliderField extends StatefulWidget {
 
 class _SliderField extends State<SliderField> {
   int _score = 1;
+
+  void initState() {
+    super.initState();
+    debugPrint('initstate☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆');
+    // Utils.showTotalDoneScoreDialog(context, 8);
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -2,31 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:yuruli/ui/others/help.dart';
+import 'package:yuruli/ui/others/setting.dart';
 
 // ↓使えない
-class HomeAppBar extends StatelessWidget {
-  final String title;
+class HomeAppBar extends AppBar {
+  final String screenTitle;
 
-  const HomeAppBar({
+  HomeAppBar({
     Key? key,
-    required this.title,
-  }) : super(key: key);
+    required this.screenTitle,
+  });
 
-  @override
-  Widget build(BuildContext context) {
+  PreferredSizeWidget builder(BuildContext context) {
     return AppBar(
       leading: IconButton(
-        onPressed: () => {},
+        onPressed: () => Navigator.of(context).push<dynamic>(HelpPage.route()),
         icon: const FaIcon(FontAwesomeIcons.circleQuestion),
       ),
       title: Text(
-        title,
+        screenTitle,
         style: const TextStyle(fontWeight: FontWeight.bold),
       ),
       centerTitle: true,
       actions: <Widget>[
         IconButton(
-          onPressed: () => {},
+          onPressed: () =>
+              Navigator.of(context).push<dynamic>(SettingPage.route()),
           icon: const FaIcon(FontAwesomeIcons.gear),
         ),
       ],
@@ -63,6 +65,38 @@ class Utils {
         builder: (context) => toPage,
       ),
       (route) => false,
+    );
+  }
+
+  static Future showTotalDoneScoreDialog(BuildContext context, int score) {
+    final width = MediaQuery.of(context).size.width;
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('今日の獲得スコア'),
+          content: Text(
+            score.toString(),
+            style: TextStyle(
+              fontSize: width * 2 / 5,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).primaryColor,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                'OK',
+                style: TextStyle(
+                  color: Theme.of(context).hintColor,
+                ),
+              ),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ],
+        );
+      },
     );
   }
 }

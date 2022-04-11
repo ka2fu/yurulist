@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 
 import 'package:yuruli/model/entity/todo.dart';
 import 'package:yuruli/model/repository/todo_repository.dart';
-import 'package:yuruli/model/list_change_date.dart';
+import 'package:yuruli/model/preference_data.dart';
 import 'package:yuruli/util/home_utils.dart';
 
 class YesterdayListViewModel extends ChangeNotifier {
@@ -19,6 +19,8 @@ class YesterdayListViewModel extends ChangeNotifier {
   List<Todo> get todos => _todos;
   bool _isLoading = false;
   bool get isLoading => _isLoading;
+  bool _isExpired = false;
+  bool get isExpired => _isExpired;
 
   void loadTodos() async {
     _startLoading();
@@ -38,6 +40,12 @@ class YesterdayListViewModel extends ChangeNotifier {
 
   void _finishLoading() {
     _isLoading = false;
+    notifyListeners();
+  }
+
+  void setExpired(bool b) {
+    _isExpired = b;
+    debugPrint('☆☆☆☆☆☆☆☆☆isExpired state changed: $_isExpired☆☆☆☆☆☆☆☆☆☆☆');
     notifyListeners();
   }
 
@@ -111,6 +119,9 @@ class YesterdayListViewModel extends ChangeNotifier {
         /// earliestYesterdayTimeは置き換えてearliestTodayTimeは削除
         Preference.setIntValue(Todo.findState('ey'), buildTime);
         Preference.removeValue(Todo.findState('et'));
+
+        /// todalScoreAlertDialogを表示
+        setExpired(true);
 
         debugPrint('move today to yesteday');
       }
