@@ -39,7 +39,7 @@ class HomeAppBar extends AppBar {
 class Utils {
   static int todayExpireDiff = 1;
   static int yesterdayExpireDiff = 1;
-  static String expireTimeFormat = 'yyyyMMddHHmm';
+  static String expireTimeFormat = 'yyyyMMdd'; // 期限のフォーマット
 
   static void showIndicator(BuildContext context) {
     showGeneralDialog(
