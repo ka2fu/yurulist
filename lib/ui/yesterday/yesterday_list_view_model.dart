@@ -120,6 +120,9 @@ class YesterdayListViewModel extends ChangeNotifier {
         Preference.setIntValue(Todo.findState('ey'), buildTime);
         Preference.removeValue(Todo.findState('et'));
 
+        /// totalDoneScoreをりせっと
+        Preference.removeValue(Todo.findState('tds'));
+
         /// todalScoreAlertDialogを表示
         setExpired(true);
 

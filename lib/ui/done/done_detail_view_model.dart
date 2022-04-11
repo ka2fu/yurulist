@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:yuruli/model/entity/todo.dart';
+import 'package:yuruli/model/preference_data.dart';
 import 'package:yuruli/model/repository/todo_repository.dart';
 
 class DoneDetailViewModel extends ChangeNotifier {
@@ -33,6 +34,12 @@ class DoneDetailViewModel extends ChangeNotifier {
 
   Future update() async {
     _todo.createdAt = DateTime.now();
+    late int totalScore;
+    await Preference.getIntValue(Todo.findState('tds')).then((value) {
+      totalScore = value;
+    });
+    Preference.setTodalDoneScore(
+        Todo.findState('tds'), totalScore - todo.score);
     return await _repository.update(todo);
   }
 }
