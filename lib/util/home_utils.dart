@@ -68,13 +68,13 @@ class Utils {
     );
   }
 
-  static Future showTotalDoneScoreDialog(BuildContext context, int score) {
+  static Future showTotalDoneScoreDialog(BuildContext context, int score, String time) {
     final width = MediaQuery.of(context).size.width;
     return showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('今回の獲得スコア'),
+          title: Text('${time.toString()}の獲得スコア'),
           content: Text(
             score.toString(),
             style: TextStyle(

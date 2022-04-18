@@ -58,19 +58,25 @@ class _YesterdayListPage extends StatelessWidget {
 
     late int totalDoneScore;
     debugPrint('isExpired? 1: ${vm.isExpired.toString()}');
+    late String earliestTodoTime;
 
     Future.delayed(
         Duration.zero,
         () async => {
               debugPrint('isExpired? 2: ${vm.isExpired.toString()}'),
-              await Preference.getIntValue(Todo.findState('tds')).then((value) => {
-                    totalDoneScore = value,
+              await Preference.getIntValue(Todo.findState('tds'))
+                  .then((value) => {
+                        totalDoneScore = value,
+                      }),
+              await Preference.getStringValue(Todo.findState('et-str'))
+                  .then((value) => {
+                        earliestTodoTime = value,
                   }),
             }).then((_) => {
           debugPrint('isExpired? 3: ${vm.isExpired.toString()}'),
           if (vm.isExpired)
             {
-              Utils.showTotalDoneScoreDialog(context, totalDoneScore),
+              Utils.showTotalDoneScoreDialog(context, totalDoneScore, earliestTodoTime),
               Preference.removeValue(Todo.findState('tds')),
               vm.setExpired(false),
             }

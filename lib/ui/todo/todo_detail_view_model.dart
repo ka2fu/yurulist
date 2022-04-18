@@ -67,7 +67,8 @@ class TodoDetailViewModel extends ChangeNotifier {
     });
 
     /// 新しく保存
-    Preference.setTodalDoneScore(Todo.findState('tds'), totalScore + todo.score);
+    Preference.setTodalDoneScore(
+        Todo.findState('tds'), totalScore + todo.score);
   }
 
   Future save() async {
@@ -80,7 +81,9 @@ class TodoDetailViewModel extends ChangeNotifier {
     });
 
     if (earliestTodayTime == 0) {
+      // 一つ目のToDoの保存
       Preference.setIntValue(Todo.findState('et'), _todo.createdAt);
+      Preference.setTimeString(Todo.findState('et-str'), _todo.createdAt);
     }
     // けす
     await Preference.getIntValue(Todo.findState('et'))
