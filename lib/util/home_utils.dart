@@ -38,8 +38,8 @@ class HomeAppBar extends AppBar {
 
 class Utils {
   static int todayExpireDiff = 1;
-  static int yesterdayExpireDiff = 1;
-  static String expireTimeFormat = 'yyyyMMdd'; // 期限のフォーマット
+  static int yesterdayExpireDiff = 2;
+  static String expireTimeFormat = 'yyyyMMddHHmm'; // 期限のフォーマット
 
   static void showIndicator(BuildContext context) {
     showGeneralDialog(
@@ -74,7 +74,7 @@ class Utils {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('今日の獲得スコア'),
+          title: const Text('今回の獲得スコア'),
           content: Text(
             score.toString(),
             style: TextStyle(

@@ -65,14 +65,16 @@ class _DoneListPage extends StatelessWidget {
         Duration.zero,
         () async => {
               debugPrint('isExpired? 2: ${vm.isExpired.toString()}'),
-              await Preference.getIntValue(Todo.findState('tds')).then((value) => {
-                    totalDoneScore = value,
-                  }),
+              await Preference.getIntValue(Todo.findState('tds'))
+                  .then((value) => {
+                        totalDoneScore = value,
+                      }),
             }).then((_) => {
           debugPrint('isExpired? 3: ${vm.isExpired.toString()}'),
           if (vm.isExpired)
             {
               Utils.showTotalDoneScoreDialog(context, totalDoneScore),
+              Preference.removeValue(Todo.findState('tds')),
               vm.setExpired(false),
             }
         });

@@ -90,9 +90,7 @@ class YesterdayListViewModel extends ChangeNotifier {
         .then((value) => {earliestYesterdayTime = value});
 
     debugPrint('earliest today time: $earliestTodayTime');
-    debugPrint('earliest yesterday time: $earliestYesterdayTime');
-
-    var todosMap = await setAllTodos();
+    // debugPrint('earliest yesterday time: $earliestYesterdayTime');
 
     /// home画面build時の時間
     DateTime buildTime = DateTime.now();
@@ -101,6 +99,8 @@ class YesterdayListViewModel extends ChangeNotifier {
 
     // けす
     debugPrint('home screen build time: $buildTimeInt');
+
+    var todosMap = await setAllTodos();
 
     /// earliestTimeが0なら何もしない
     if (earliestTodayTime > 0) {
@@ -117,25 +117,40 @@ class YesterdayListViewModel extends ChangeNotifier {
         });
 
         /// earliestYesterdayTimeは置き換えてearliestTodayTimeは削除
-        Preference.setIntValue(Todo.findState('ey'), buildTime);
+        Preference.setTimeInt(Todo.findState('ey'), earliestTodayTime);
         Preference.removeValue(Todo.findState('et'));
 
         /// totalDoneScoreをりせっと
-        Preference.removeValue(Todo.findState('tds'));
+        // Preference.removeValue(Todo.findState('tds'));
 
         /// todalScoreAlertDialogを表示
         setExpired(true);
 
+        /// けす？
+
         debugPrint('move today to yesteday');
       }
-    } else if (earliestYesterdayTime > 0) {
+    }
+
+    await Preference.getIntValue(Todo.findState('ey'))
+        .then((value) => {earliestYesterdayTime = value});
+    debugPrint('earliest yesterday time: $earliestYesterdayTime');
+
+    todosMap = await setAllTodos();
+
+    if (earliestYesterdayTime > 0) {
       if (buildTimeInt - earliestYesterdayTime >= Utils.yesterdayExpireDiff) {
         todosMap[Todo.findState('yesterday')].forEach((todo) {
+          debugPrint('delete ${todo.title.toString()}');
           _repository.delete(todo);
         });
 
         /// earliestYesterdayTimeを削除
         Preference.removeValue(Todo.findState('ey'));
+        debugPrint('earliestYesterdayTime removed');
+
+        /// todalScoreAlertDialogを表示
+        // setExpired(true);
 
         debugPrint('remove yesterday');
       }

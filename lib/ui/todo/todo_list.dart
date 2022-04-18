@@ -82,6 +82,7 @@ class _TodoListPage extends StatelessWidget {
             {
               debugPrint('total done score right before dialog: $totalDoneScore'),
               Utils.showTotalDoneScoreDialog(context, totalDoneScore),
+              Preference.removeValue(Todo.findState('tds')),
               vm.setExpired(false),
             }
         });

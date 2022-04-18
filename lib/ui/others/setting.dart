@@ -9,7 +9,7 @@ import 'package:yuruli/util/home_utils.dart';
 class SettingPage extends StatelessWidget {
   static Route<dynamic> route() {
     return MaterialPageRoute<dynamic>(
-      builder: (_) => SettingPage(),
+      builder: (_) => const SettingPage(),
     );
   }
 
@@ -34,7 +34,6 @@ class SettingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -53,6 +52,7 @@ class SettingPage extends StatelessWidget {
               future: Preference.getIntValue(Todo.findState('tds')),
               builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
                 // Text text;
+                debugPrint('futureBuilder works');
                 if (snapshot.hasData) {
                   return Text(
                     snapshot.data.toString(),

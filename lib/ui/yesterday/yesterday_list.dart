@@ -71,6 +71,7 @@ class _YesterdayListPage extends StatelessWidget {
           if (vm.isExpired)
             {
               Utils.showTotalDoneScoreDialog(context, totalDoneScore),
+              Preference.removeValue(Todo.findState('tds')),
               vm.setExpired(false),
             }
         });
