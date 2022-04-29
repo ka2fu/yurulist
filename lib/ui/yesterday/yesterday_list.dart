@@ -131,7 +131,7 @@ class _YesterdayListPage extends StatelessWidget {
           todo.getCreatedAt(),
         ),
         onTap: () =>
-            Navigator.of(context).push<dynamic>(YesterdayDetailPage.route()),
+            Navigator.of(context).push<dynamic>(YesterdayDetailPage.route(todo)),
       ),
     );
   }

@@ -10,6 +10,7 @@ import 'package:yuruli/model/db/todo_database.dart';
 import 'package:yuruli/ui/done/done_detail_view_model.dart';
 import 'package:yuruli/ui/done/done_list.dart';
 import 'package:yuruli/util/home_utils.dart';
+import 'package:yuruli/util/detail_utils.dart';
 
 class DoneDetailPage extends StatelessWidget {
   static Route<dynamic> route(Todo todo) {
@@ -80,7 +81,8 @@ class _DoneDetailPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () => Utils.goToHomeScreen(context, HomePage(removeUntilIndex: DoneList.index)),
+          onPressed: () => Utils.goToHomeScreen(
+              context, HomePage(removeUntilIndex: DoneList.index)),
           icon: const FaIcon(FontAwesomeIcons.angleLeft),
         ),
         title: const Text(
@@ -127,53 +129,6 @@ class _DoneDetailPage extends StatelessWidget {
           onPrimary: Theme.of(context).primaryColorLight,
         ),
       ),
-    );
-  }
-}
-
-class StatusField extends StatelessWidget {
-  // final DoneDetailViewModel vm;
-  final String title;
-  final String content;
-
-  const StatusField({
-    Key? key,
-    // required this.vm,
-    required this.title,
-    required this.content,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: <Widget>[
-        Expanded(
-          flex: 5,
-          child: Container(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              title,
-              style: TextStyle(
-                color: Theme.of(context).hintColor,
-              ),
-            ),
-          ),
-        ),
-        Expanded(
-          flex: 15,
-          child: Container(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              content,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }
