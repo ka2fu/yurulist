@@ -115,18 +115,20 @@ class _TodoDetailPage extends StatelessWidget {
 
   void _changeStatus(TodoDetailViewModel vm) {
     vm.setTitle(TitleField.title);
+    vm.setScore(SliderField.score);
   }
 
   void _save(BuildContext context, TodoDetailViewModel vm) async {
     Utils.showIndicator(context);
     _changeStatus(vm);
-    vm.setScore(SliderField.score);
+    // vm.setScore(SliderField.score);
     await vm.save();
     Utils.goToHomeScreen(context, HomePage(removeUntilIndex: TodoList.index));
   }
 
   void _update(BuildContext context, TodoDetailViewModel vm) async {
     Utils.showIndicator(context);
+    _changeStatus(vm);
     await vm.update();
     Utils.goToHomeScreen(context, HomePage(removeUntilIndex: TodoList.index));
   }
@@ -171,7 +173,7 @@ class _TodoDetailPage extends StatelessWidget {
             children: <Widget>[
               TitleField(vm: vm),
               const SizedBox(height: 20),
-              const SliderField(),
+              SliderField(vm: vm),
               const SizedBox(height: 60),
               _buildDoneButton(context, vm),
               _buildSaveButton(context, vm),
@@ -315,7 +317,12 @@ class TitleField extends StatelessWidget {
 }
 
 class SliderField extends StatefulWidget {
-  const SliderField({Key? key}) : super(key: key);
+  final vm;
+
+  const SliderField({
+    Key? key,
+    required this.vm,
+  }) : super(key: key);
 
   static int _score = 1;
   static int get score => _score;
@@ -328,12 +335,24 @@ class SliderField extends StatefulWidget {
 }
 
 class _SliderField extends State<SliderField> {
-  int _score = SliderField.score;
+  late int _score;
+  // late var vm;
+
+  @override
+  void initState() {
+    super.initState();
+    final _vm = widget.vm;
+    if (!_vm.isNew) {
+      _score = _vm.todo.score;
+    } else {
+      _score = 1;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final vm = Provider.of<TodoDetailViewModel>(context);
-    if (!vm.isNew) _score = vm.todo.score;
+    // var vm = Provider.of<TodoDetailViewModel>(context);
+    // if (!vm.isNew) _score = vm.todo.score;
 
     return Container(
       child: Row(
@@ -363,7 +382,8 @@ class _SliderField extends State<SliderField> {
                     _score = value.toInt();
                   });
                   SliderField.setScore(_score);
-                  debugPrint(_score.toString());
+                  debugPrint('_score: $_score');
+                  debugPrint('static score: ${SliderField.score}');
                 },
                 label: '$_score',
                 min: 1,

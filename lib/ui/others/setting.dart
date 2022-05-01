@@ -203,7 +203,8 @@ class _SliderFieldState extends State<SliderField> {
                 child: FittedBox(
                   fit: BoxFit.contain,
                   child: Text(
-                    '${SliderField.period}',
+                    // '${SliderField.period}',
+                    _period.toString(),
                     style: const TextStyle(
                       fontSize: 24,
                     ),

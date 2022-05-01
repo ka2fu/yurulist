@@ -92,9 +92,12 @@ class _TodoListPage extends StatelessWidget {
   Widget _buildTodoListTile(BuildContext context, Todo todo) {
     return Card(
       child: ListTile(
-        title: Text(
-          todo.title,
-          style: const TextStyle(fontWeight: FontWeight.bold),
+        title: FittedBox(
+          fit: BoxFit.fitWidth,
+          child: Text(
+            todo.title,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
         ),
         leading: Container(
           width: 30,
