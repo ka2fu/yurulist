@@ -5,7 +5,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:yuruli/ui/others/help.dart';
 import 'package:yuruli/ui/others/setting.dart';
 
-
 class StatusField extends StatelessWidget {
   // final DoneDetailViewModel vm;
   final String title;
@@ -50,5 +49,20 @@ class StatusField extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+class Setting {
+  static Map<String, String> states = {
+    'expire': 'expirePeriod',
+  };
+
+  static findState(String str) {
+    try {
+      if (!states.containsKey(str)) throw Error;
+      return states[str];
+    } catch (e) {
+      throw 'states key doesnt exist';
+    }
   }
 }

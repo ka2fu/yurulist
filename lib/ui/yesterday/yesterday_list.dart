@@ -22,30 +22,11 @@ class YesterdayList extends StatelessWidget {
   Widget build(BuildContext context) {
     final vm = YesterdayListViewModel(TodoRepository(TodoDatabase()));
     final page = _YesterdayListPage();
-    final appBar = HomeAppBar(screenTitle: 'yesterday');
+    final appBar = HomeAppBar(screenTitle: '未達成のToDo');
     return ChangeNotifierProvider(
         create: (_) => vm,
         child: Scaffold(
           appBar: appBar.builder(context),
-          // appBar: AppBar(
-          //   leading: IconButton(
-          //     onPressed: () =>
-          //         Navigator.of(context).push<dynamic>(HelpPage.route()),
-          //     icon: const FaIcon(FontAwesomeIcons.circleQuestion),
-          //   ),
-          //   title: const Text(
-          //     'yesterday',
-          //     style: TextStyle(fontWeight: FontWeight.bold),
-          //   ),
-          //   centerTitle: true,
-          //   actions: <Widget>[
-          //     IconButton(
-          //       onPressed: () =>
-          //           Navigator.of(context).push<dynamic>(SettingPage.route()),
-          //       icon: const FaIcon(FontAwesomeIcons.gear),
-          //     ),
-          //   ],
-          // ),
           body: page,
         ));
   }
@@ -57,13 +38,13 @@ class _YesterdayListPage extends StatelessWidget {
     final vm = Provider.of<YesterdayListViewModel>(context);
 
     late int totalDoneScore;
-    debugPrint('isExpired? 1: ${vm.isExpired.toString()}');
+    // debugPrint('isExpired? 1: ${vm.isExpired.toString()}');
     late String earliestTodoTime;
 
     Future.delayed(
         Duration.zero,
         () async => {
-              debugPrint('isExpired? 2: ${vm.isExpired.toString()}'),
+              // debugPrint('isExpired? 2: ${vm.isExpired.toString()}'),
               await Preference.getIntValue(Todo.findState('tds'))
                   .then((value) => {
                         totalDoneScore = value,
@@ -73,7 +54,7 @@ class _YesterdayListPage extends StatelessWidget {
                         earliestTodoTime = value,
                   }),
             }).then((_) => {
-          debugPrint('isExpired? 3: ${vm.isExpired.toString()}'),
+          // debugPrint('isExpired? 3: ${vm.isExpired.toString()}'),
           if (vm.isExpired)
             {
               Utils.showTotalDoneScoreDialog(context, totalDoneScore, earliestTodoTime),
@@ -89,7 +70,7 @@ class _YesterdayListPage extends StatelessWidget {
     if (vm.todos.isEmpty) {
       return Center(
         child: Text(
-          '昨日やり残したToDoはないよ',
+          '前回やり残したToDoはないよ',
           style: TextStyle(color: Theme.of(context).hintColor),
         ),
       );

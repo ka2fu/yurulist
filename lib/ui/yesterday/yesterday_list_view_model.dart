@@ -45,7 +45,7 @@ class YesterdayListViewModel extends ChangeNotifier {
 
   void setExpired(bool b) {
     _isExpired = b;
-    debugPrint('☆☆☆☆☆☆☆☆☆isExpired state changed: $_isExpired☆☆☆☆☆☆☆☆☆☆☆');
+    // debugPrint('☆☆☆☆☆☆☆☆☆isExpired state changed: $_isExpired☆☆☆☆☆☆☆☆☆☆☆');
     notifyListeners();
   }
 
@@ -67,11 +67,11 @@ class YesterdayListViewModel extends ChangeNotifier {
       var todoList = await getTodos(state);
       todosMap[state] = [];
 
-      debugPrint('-----------------------');
-      debugPrint('*** $state ***');
+      // debugPrint('-----------------------');
+      // debugPrint('*** $state ***');
 
       for (var todo in todoList) {
-        debugPrint('$state > ${todo.title}');
+        // debugPrint('$state > ${todo.title}');
 
         todosMap[state].add(todo);
       }
@@ -89,7 +89,7 @@ class YesterdayListViewModel extends ChangeNotifier {
     await Preference.getIntValue(Todo.findState('ey'))
         .then((value) => {earliestYesterdayTime = value});
 
-    debugPrint('earliest today time: $earliestTodayTime');
+    // debugPrint('earliest today time: $earliestTodayTime');
     // debugPrint('earliest yesterday time: $earliestYesterdayTime');
 
     /// home画面build時の時間
@@ -98,7 +98,7 @@ class YesterdayListViewModel extends ChangeNotifier {
     int buildTimeInt = int.parse(formatter.format(buildTime));
 
     // けす
-    debugPrint('home screen build time: $buildTimeInt');
+    // debugPrint('home screen build time: $buildTimeInt');
 
     var todosMap = await setAllTodos();
 
@@ -128,31 +128,31 @@ class YesterdayListViewModel extends ChangeNotifier {
 
         /// けす？
 
-        debugPrint('move today to yesteday');
+        // debugPrint('move today to yesteday');
       }
     }
 
     await Preference.getIntValue(Todo.findState('ey'))
         .then((value) => {earliestYesterdayTime = value});
-    debugPrint('earliest yesterday time: $earliestYesterdayTime');
+    // debugPrint('earliest yesterday time: $earliestYesterdayTime');
 
     todosMap = await setAllTodos();
 
     if (earliestYesterdayTime > 0) {
       if (buildTimeInt - earliestYesterdayTime >= Utils.yesterdayExpireDiff) {
         todosMap[Todo.findState('yesterday')].forEach((todo) {
-          debugPrint('delete ${todo.title.toString()}');
+          // debugPrint('delete ${todo.title.toString()}');
           _repository.delete(todo);
         });
 
         /// earliestYesterdayTimeを削除
         Preference.removeValue(Todo.findState('ey'));
-        debugPrint('earliestYesterdayTime removed');
+        // debugPrint('earliestYesterdayTime removed');
 
         /// todalScoreAlertDialogを表示
         // setExpired(true);
 
-        debugPrint('remove yesterday');
+        // debugPrint('remove yesterday');
       }
     }
 

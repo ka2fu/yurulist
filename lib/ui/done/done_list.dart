@@ -12,7 +12,6 @@ import 'package:yuruli/ui/others/setting.dart';
 import 'package:yuruli/ui/others/help.dart';
 import 'package:yuruli/ui/done/done_list_view_model.dart';
 import 'package:yuruli/util/home_utils.dart';
-// import 'package:yuruli/ui/done/done_detail_view_model.dart';
 
 class DoneList extends StatelessWidget {
   static int get index => 0;
@@ -23,30 +22,11 @@ class DoneList extends StatelessWidget {
   Widget build(BuildContext context) {
     final vm = DoneListViewModel(TodoRepository(TodoDatabase()));
     final page = _DoneListPage();
-    final appBar = HomeAppBar(screenTitle: 'done');
+    final appBar = HomeAppBar(screenTitle: '達成済のToDo');
     return ChangeNotifierProvider(
       create: (_) => vm,
       child: Scaffold(
         appBar: appBar.builder(context),
-        // appBar: AppBar(
-        //   leading: IconButton(
-        //     onPressed: () =>
-        //         Navigator.of(context).push<dynamic>(HelpPage.route()),
-        //     icon: const FaIcon(FontAwesomeIcons.circleQuestion),
-        //   ),
-        //   title: const Text(
-        //     'done',
-        //     style: TextStyle(fontWeight: FontWeight.bold),
-        //   ),
-        //   centerTitle: true,
-        //   actions: <Widget>[
-        //     IconButton(
-        //       onPressed: () =>
-        //           Navigator.of(context).push<dynamic>(SettingPage.route()),
-        //       icon: const FaIcon(FontAwesomeIcons.gear),
-        //     ),
-        //   ],
-        // ),
         body: page,
       ),
     );
@@ -59,13 +39,13 @@ class _DoneListPage extends StatelessWidget {
     final vm = Provider.of<DoneListViewModel>(context);
 
     late int totalDoneScore;
-    debugPrint('isExpired? 1: ${vm.isExpired.toString()}');
+    // debugPrint('isExpired? 1: ${vm.isExpired.toString()}');
     late String earliestTodoTime;
 
     Future.delayed(
         Duration.zero,
         () async => {
-              debugPrint('isExpired? 2: ${vm.isExpired.toString()}'),
+              // debugPrint('isExpired? 2: ${vm.isExpired.toString()}'),
               await Preference.getIntValue(Todo.findState('tds'))
                   .then((value) => {
                         totalDoneScore = value,
@@ -75,7 +55,7 @@ class _DoneListPage extends StatelessWidget {
                         earliestTodoTime = value,
                   }),
             }).then((_) => {
-          debugPrint('isExpired? 3: ${vm.isExpired.toString()}'),
+          // debugPrint('isExpired? 3: ${vm.isExpired.toString()}'),
           if (vm.isExpired)
             {
               Utils.showTotalDoneScoreDialog(context, totalDoneScore, earliestTodoTime),

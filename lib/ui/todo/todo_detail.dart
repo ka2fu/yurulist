@@ -113,8 +113,14 @@ class _TodoDetailPage extends StatelessWidget {
         });
   }
 
+  void _changeStatus(TodoDetailViewModel vm) {
+    vm.setTitle(TitleField.title);
+  }
+
   void _save(BuildContext context, TodoDetailViewModel vm) async {
     Utils.showIndicator(context);
+    _changeStatus(vm);
+    vm.setScore(SliderField.score);
     await vm.save();
     Utils.goToHomeScreen(context, HomePage(removeUntilIndex: TodoList.index));
   }
@@ -259,10 +265,17 @@ class _TodoDetailPage extends StatelessWidget {
 class TitleField extends StatelessWidget {
   final TodoDetailViewModel vm;
 
-  const TitleField({
+  static late String _title;
+  static String get title => _title;
+
+  TitleField({
     Key? key,
     required this.vm,
-  }) : super(key: key);
+  }) : super(
+          key: key,
+        ) {
+    _title = vm.isNew ? '' : vm.todo.title;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -286,7 +299,10 @@ class TitleField extends StatelessWidget {
           child: TextFormField(
             initialValue: vm.isNew ? '' : vm.todo.title,
             validator: (value) => value!.isEmpty ? 'ToDoを入力して' : null,
-            onChanged: (value) => vm.setTitle(value),
+            onChanged: (value) => {
+              // vm.setTitle(value)
+              _title = value,
+            },
           ),
         ),
         const Expanded(
@@ -301,18 +317,18 @@ class TitleField extends StatelessWidget {
 class SliderField extends StatefulWidget {
   const SliderField({Key? key}) : super(key: key);
 
+  static int _score = 1;
+  static int get score => _score;
+  static void setScore(int value) {
+    _score = value;
+  }
+
   @override
   _SliderField createState() => _SliderField();
 }
 
 class _SliderField extends State<SliderField> {
-  int _score = 1;
-
-  void initState() {
-    super.initState();
-    debugPrint('initstate☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆');
-    // Utils.showTotalDoneScoreDialog(context, 8);
-  }
+  int _score = SliderField.score;
 
   @override
   Widget build(BuildContext context) {
@@ -341,8 +357,13 @@ class _SliderField extends State<SliderField> {
               child: Slider(
                 value: _score.toDouble(),
                 onChanged: (value) {
-                  _score = value.toInt();
-                  vm.setScore(_score);
+                  // _score = value.toInt();
+                  // vm.setScore(_score);
+                  setState(() {
+                    _score = value.toInt();
+                  });
+                  SliderField.setScore(_score);
+                  debugPrint(_score.toString());
                 },
                 label: '$_score',
                 min: 1,

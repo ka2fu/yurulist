@@ -52,7 +52,7 @@ class TodoDetailViewModel extends ChangeNotifier {
     /// 一回totalDoneScoreを取得
     // late int totalScore;
     await Preference.getIntValue(Todo.findState('tds')).then((value) {
-      debugPrint('todal done score: $value');
+      // debugPrint('todal done score: $value');
     });
   }
 
@@ -86,8 +86,8 @@ class TodoDetailViewModel extends ChangeNotifier {
       Preference.setTimeString(Todo.findState('et-str'), _todo.createdAt);
     }
     // けす
-    await Preference.getIntValue(Todo.findState('et'))
-        .then((int value) => debugPrint(value.toString()));
+    // await Preference.getIntValue(Todo.findState('et'))
+    //     .then((int value) => debugPrint(value.toString()));
 
     _todo.state = Todo.findState('today');
     return await _repository.insert(_todo);

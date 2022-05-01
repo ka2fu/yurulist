@@ -3,13 +3,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 
 import 'package:yuruli/util/home_utils.dart';
+import 'package:yuruli/util/detail_utils.dart';
 
 class Preference {
   static Future<int> getIntValue(String key) async {
-    debugPrint('preference getIntValue works');
+    // debugPrint('preference getIntValue works');
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var value = prefs.getInt(key);
-    debugPrint('value in getIntValue: $value');
+    // debugPrint('value in getIntValue: $value');
     if (value == null) return 0;
     return value;
   }
@@ -38,6 +39,11 @@ class Preference {
     var formatter = DateFormat(Utils.expireTimeFormat, 'ja-JP');
     int _value = int.parse(formatter.format(value));
     prefs.setInt(key, _value);
+  }
+
+  static void setPeriod(int value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt(Setting.findState('expire'), value);
   }
 
   static void setTimeInt(String key, int value) async {

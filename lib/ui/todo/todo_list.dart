@@ -16,44 +16,21 @@ import 'package:yuruli/util/home_utils.dart';
 class TodoList extends StatelessWidget {
   static int get index => 1;
 
-  // TodoList({Key? key}) : super(key: key);
   const TodoList({Key? key}) : super(key: key);
-
-  // final HomeAppBar _appBar = HomeAppBar(screenTitle: 'today');
 
   @override
   Widget build(BuildContext context) {
     final vm = TodoListViewModel(TodoRepository(TodoDatabase()));
     final page = _TodoListPage();
-    final appBar = HomeAppBar(screenTitle: 'todyay');
+    final appBar = HomeAppBar(screenTitle: 'Todoリスト');
 
     return ChangeNotifierProvider(
       create: (_) => vm,
       child: Scaffold(
         appBar: appBar.builder(context),
-        // appBar: AppBar(
-        //   leading: IconButton(
-        //     onPressed: () =>
-        //         Navigator.of(context).push<dynamic>(HelpPage.route()),
-        //     icon: const FaIcon(FontAwesomeIcons.circleQuestion),
-        //   ),
-        //   title: const Text(
-        //     'today',
-        //     style: TextStyle(fontWeight: FontWeight.bold),
-        //   ),
-        //   centerTitle: true,
-        //   actions: <Widget>[
-        //     IconButton(
-        //       onPressed: () =>
-        //           Navigator.of(context).push<dynamic>(SettingPage.route()),
-        //       icon: const FaIcon(FontAwesomeIcons.gear),
-        //     ),
-        //   ],
-        // ),
         body: page,
         floatingActionButton: FloatingActionButton(
           onPressed: () => page._goToTodoDetailScreen(context, Todo(), true),
-          // Navigator.of(context).push<dynamic>(TodoDetailPage.route(Todo(), true)),
           child: const Icon(Icons.add),
         ),
       ),
@@ -67,13 +44,13 @@ class _TodoListPage extends StatelessWidget {
     final vm = Provider.of<TodoListViewModel>(context);
 
     late int totalDoneScore;
-    debugPrint('isExpired? 1: ${vm.isExpired.toString()}');
+    // debugPrint('isExpired? 1: ${vm.isExpired.toString()}');
     late String earliestTodoTime;
 
     Future.delayed(
         Duration.zero,
         () async => {
-              debugPrint('isExpired? 2: ${vm.isExpired.toString()}'),
+              // debugPrint('isExpired? 2: ${vm.isExpired.toString()}'),
               await Preference.getIntValue(Todo.findState('tds'))
                   .then((value) => {
                         totalDoneScore = value,
@@ -83,7 +60,7 @@ class _TodoListPage extends StatelessWidget {
                         earliestTodoTime = value,
                   }),
             }).then((_) => {
-          debugPrint('isExpired? 3: ${vm.isExpired.toString()}'),
+          // debugPrint('isExpired? 3: ${vm.isExpired.toString()}'),
           if (vm.isExpired)
             {
               Utils.showTotalDoneScoreDialog(context, totalDoneScore, earliestTodoTime),

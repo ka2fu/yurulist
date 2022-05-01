@@ -37,8 +37,15 @@ class HomeAppBar extends AppBar {
 }
 
 class Utils {
-  static int todayExpireDiff = 1;
-  static int yesterdayExpireDiff = 2;
+  static int _todayExpireDiff = 1;
+  static int _yesterdayExpireDiff = 2;
+  static int get todayExpireDiff => _todayExpireDiff;
+  static int get yesterdayExpireDiff => _yesterdayExpireDiff;
+  static void setExpireDiff(value) {
+    _todayExpireDiff = value;
+    _yesterdayExpireDiff = value * 2;
+  }
+
   static String expireTimeFormat = 'yyyyMMddHHmm'; // 期限のフォーマット
 
   static void showIndicator(BuildContext context) {
@@ -68,7 +75,8 @@ class Utils {
     );
   }
 
-  static Future showTotalDoneScoreDialog(BuildContext context, int score, String time) {
+  static Future showTotalDoneScoreDialog(
+      BuildContext context, int score, String time) {
     final width = MediaQuery.of(context).size.width;
     return showDialog(
       context: context,
