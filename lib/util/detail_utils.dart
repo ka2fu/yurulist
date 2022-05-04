@@ -8,14 +8,16 @@ import 'package:yuruli/ui/others/setting.dart';
 class StatusField extends StatelessWidget {
   // final DoneDetailViewModel vm;
   final String title;
-  final String content;
+  late String content;
 
-  const StatusField({
+  StatusField({
     Key? key,
     // required this.vm,
     required this.title,
     required this.content,
-  }) : super(key: key);
+  }) : super(key: key) {
+    if (title == 'スコア') content = '$content 点';
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -300,6 +300,9 @@ class TitleField extends StatelessWidget {
           flex: 15,
           child: TextFormField(
             initialValue: vm.isNew ? '' : vm.todo.title,
+            maxLength: 30, // 文字数制限
+            keyboardType: TextInputType.multiline, // 文字数が多い時改行して複数行表示
+            maxLines: null, // 文字数が多い時改行して複数行表示
             validator: (value) => value!.isEmpty ? 'ToDoを入力して' : null,
             onChanged: (value) => {
               // vm.setTitle(value)

@@ -93,40 +93,58 @@ class _YesterdayDetailPage extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: SafeArea(
-        child: Container(
-          padding: const EdgeInsets.only(right: 25, left: 25),
-          margin: const EdgeInsets.only(top: 40, bottom: 40),
-          child: Column(
-            children: <Widget>[
-              StatusField(title: 'ToDo', content: vm.todo.title),
-              const SizedBox(height: 40),
-              StatusField(title: 'スコア', content: vm.todo.score.toString()),
-              const SizedBox(height: 100),
-              _buildUpdateButton(context, vm),
-            ],
-          ),
+      body: Container(
+        padding: const EdgeInsets.symmetric(vertical: 25),
+        margin: const EdgeInsets.symmetric(horizontal: 25),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            const SizedBox(height: 80),
+            _buildStatusBox(context, vm),
+            const SizedBox(height: 80),
+            _buildUpdateButton(context, vm),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildUpdateButton(BuildContext context, YesterdayDetailViewModel vm) {
+  Widget _buildStatusBox(BuildContext context, YesterdayDetailViewModel vm) {
     return Container(
-      padding: const EdgeInsets.only(top: 8, bottom: 8),
-      child: ElevatedButton(
-        onPressed: () => _showUpdateDialog(context),
-        child: const Text(
-          '今日のToDoリストに戻す',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-          ),
+      padding: const EdgeInsets.symmetric(horizontal: 25),
+        child: Column(
+          children: <Widget>[
+            StatusField(title: 'ToDo', content: vm.todo.title),
+            const SizedBox(height: 40),
+            StatusField(title: 'スコア', content: vm.todo.score.toString()),
+          ],
         ),
-        style: ElevatedButton.styleFrom(
-          primary: Theme.of(context).primaryColor,
-          onPrimary: Theme.of(context).primaryColorLight,
+    );
+  }
+
+  Widget _buildUpdateButton(BuildContext context, YesterdayDetailViewModel vm) {
+    final buttonWidth = MediaQuery.of(context).size.width - 50;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: SizedBox(
+        width: buttonWidth,
+        height: 50,
+        child: ElevatedButton(
+          onPressed: () => _showUpdateDialog(context),
+          child: const Text(
+            '今日のToDoリストに戻す',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),
+          ),
+          style: ElevatedButton.styleFrom(
+            primary: Theme.of(context).primaryColor,
+            onPrimary: Theme.of(context).primaryColorLight,
+          ),
         ),
       ),
     );

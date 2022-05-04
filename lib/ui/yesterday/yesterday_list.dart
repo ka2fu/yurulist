@@ -110,6 +110,10 @@ class _YesterdayListPage extends StatelessWidget {
         ),
         trailing: Text(
           todo.getCreatedAt(),
+          style: TextStyle(
+            fontSize: 12,
+            color: Theme.of(context).hintColor,
+          ),
         ),
         onTap: () =>
             Navigator.of(context).push<dynamic>(YesterdayDetailPage.route(todo)),

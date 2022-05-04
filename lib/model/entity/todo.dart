@@ -37,6 +37,8 @@ class Todo {
 
   String getCreatedAt() {
     try {
+      // TileListのcreatedAtのフォーマット調整
+      // var formatter = DateFormat('yyyy/MM/dd', 'ja-JP');
       var formatter = DateFormat('yyyy/MM/dd HH:mm', 'ja-JP');
       return formatter.format(createdAt);
     } catch (e) {

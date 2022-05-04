@@ -92,12 +92,9 @@ class _TodoListPage extends StatelessWidget {
   Widget _buildTodoListTile(BuildContext context, Todo todo) {
     return Card(
       child: ListTile(
-        title: FittedBox(
-          fit: BoxFit.fitWidth,
-          child: Text(
-            todo.title,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
+        title: Text(
+          todo.title,
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         leading: Container(
           width: 30,
@@ -118,6 +115,10 @@ class _TodoListPage extends StatelessWidget {
         ),
         trailing: Text(
           todo.getCreatedAt(),
+          style: TextStyle(
+            fontSize: 12,
+            color: Theme.of(context).hintColor,
+          ),
         ),
         onTap: () => _goToTodoDetailScreen(context, todo, false),
       ),
