@@ -12,6 +12,7 @@ class Todo {
     'today': 'today',
     'done': 'done',
     'yesterday': 'yesterday',
+    'routine': 'routine',
     'et': 'earliestTodayTime',
     'ey': 'earliestYesterdayTime',
     'tds': 'totalDoneScore',
