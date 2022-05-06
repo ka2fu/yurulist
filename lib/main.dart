@@ -12,6 +12,7 @@ import 'package:yuruli/ui/todo/todo_list.dart';
 import 'package:yuruli/ui/yesterday/yesterday_list.dart';
 import 'package:yuruli/ui/others/setting.dart';
 import 'package:yuruli/ui/others/help.dart';
+import 'package:yuruli/ui/routine/routine_list.dart';
 import 'package:yuruli/util/detail_utils.dart';
 import 'package:yuruli/util/home_utils.dart';
 
@@ -66,6 +67,7 @@ class _HomePageState extends State<HomePage> {
     // TodoList(),
     const TodoList(),
     const YesterdayList(),
+    const RoutineList(),
   ];
 
   final List<BottomNavigationBarItem> _bottomNavItems = [
@@ -75,6 +77,8 @@ class _HomePageState extends State<HomePage> {
         icon: FaIcon(FontAwesomeIcons.house), label: 'ToDo'),
     const BottomNavigationBarItem(
         icon: FaIcon(FontAwesomeIcons.calendarCheck), label: '未達成'),
+    const BottomNavigationBarItem(
+      icon: FaIcon(FontAwesomeIcons.bowlFood), label: '習慣',),
   ];
 
   @override
