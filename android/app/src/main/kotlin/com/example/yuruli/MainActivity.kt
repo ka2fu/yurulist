@@ -1,4 +1,4 @@
-package com.example.yuruli
+package com.zarigani.yuruli
 
 import io.flutter.embedding.android.FlutterActivity
 
