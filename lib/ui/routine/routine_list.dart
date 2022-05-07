@@ -35,7 +35,11 @@ class RoutineList extends StatelessWidget {
           onPressed: () async => {
             await Preference.getIntValue(Setting.findState('limit'))
                 .then((value) {
-              limit = value;
+              if (value == 0) {
+                limit = 1;
+              } else {
+                limit = value;
+              }
             }),
             if (vm.todos.length < limit)
               {
@@ -64,20 +68,20 @@ class _RoutineListPage extends StatelessWidget {
     Future.delayed(
         Duration.zero,
         () async => {
-          // debugPrint('in routein list page'),
+              // debugPrint('in routein list page'),
               await Preference.getIntValue(Todo.findState('tds'))
                   .then((value) => {
                         totalDoneScore = value,
                       }),
               await Preference.getStringValue(Todo.findState('et-str'))
                   .then((value) => {
-                              debugPrint('in routein list page'),
+                        debugPrint('in routein list page'),
                         earliestTodoTime = value,
                       }),
             }).then((_) => {
           if (vm.isExpired)
             {
-                        debugPrint('in routein list page **** expired ****'),
+              debugPrint('in routein list page **** expired ****'),
               Utils.showTotalDoneScoreDialog(
                   context, totalDoneScore, earliestTodoTime),
               Preference.removeValue(Todo.findState('tds')),

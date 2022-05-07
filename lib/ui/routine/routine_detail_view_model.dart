@@ -34,7 +34,7 @@ class RoutineDetailViewModel extends ChangeNotifier {
   }
 
   void setTitle(String title) {
-    _todo.title = title;
+    _todo.title = title.trim();
     notifyListeners();
   }
 
@@ -48,19 +48,18 @@ class RoutineDetailViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future getTotalDoneScore() async {
-    /// 一回totalDoneScoreを取得
-    // late int totalScore;
-    await Preference.getIntValue(Todo.findState('tds')).then((value) {
-      // debugPrint('todal done score: $value');
-    });
-  }
+  // Future getTotalDoneScore() async {
+  //   /// 一回totalDoneScoreを取得
+  //   // late int totalScore;
+  //   await Preference.getIntValue(Todo.findState('tds')).then((value) {
+  //   });
+  // }
 
   Future done() async {
     setState(Todo.findState('done'));
     _repository.update(todo);
 
-    // /// 一回totalDoneScoreを取得
+    /// 一回totalDoneScoreを取得
     late int totalScore;
     await Preference.getIntValue(Todo.findState('tds')).then((value) {
       totalScore = value;
@@ -72,7 +71,6 @@ class RoutineDetailViewModel extends ChangeNotifier {
   }
 
   Future save() async {
-    // List<Todo> todos = await _repository.loadTodos(Todo.findState('today'));
     _todo.createdAt = DateTime.now();
 
     late int earliestTodayTime;
@@ -81,13 +79,10 @@ class RoutineDetailViewModel extends ChangeNotifier {
     });
 
     if (earliestTodayTime == 0) {
-      // 一つ目のToDoの保存
+      /// 一つ目のToDoの保存
       Preference.setIntValue(Todo.findState('et'), _todo.createdAt);
       Preference.setTimeString(Todo.findState('et-str'), _todo.createdAt);
     }
-    // けす
-    // await Preference.getIntValue(Todo.findState('et'))
-    //     .then((int value) => debugPrint(value.toString()));
 
     _todo.state = Todo.findState('routine');
     return await _repository.insert(_todo);

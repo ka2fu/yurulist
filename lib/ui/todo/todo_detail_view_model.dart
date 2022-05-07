@@ -34,7 +34,7 @@ class TodoDetailViewModel extends ChangeNotifier {
   }
 
   void setTitle(String title) {
-    _todo.title = title;
+    _todo.title = title.trim();
     notifyListeners();
   }
 

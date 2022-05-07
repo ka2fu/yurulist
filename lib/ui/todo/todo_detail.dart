@@ -121,7 +121,6 @@ class _TodoDetailPage extends StatelessWidget {
   void _save(BuildContext context, TodoDetailViewModel vm) async {
     Utils.showIndicator(context);
     _changeStatus(vm);
-    // vm.setScore(SliderField.score);
     await vm.save();
     Utils.goToHomeScreen(context, HomePage(removeUntilIndex: TodoList.index));
   }

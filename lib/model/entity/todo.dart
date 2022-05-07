@@ -17,7 +17,6 @@ class Todo {
     'ey': 'earliestYesterdayTime',
     'tds': 'totalDoneScore',
     'et-str': 'earliestTodayTimeString', 
-    // 'limit': 'routineLimit',
   };
 
   static findState(String str) {
@@ -39,8 +38,8 @@ class Todo {
 
   String getCreatedAt() {
     try {
-      // TileListのcreatedAtのフォーマット調整
-      // var formatter = DateFormat('yyyy/MM/dd', 'ja-JP');
+      /// TileListのcreatedAtのフォーマット調整
+      /// var formatter = DateFormat('yyyy/MM/dd', 'ja-JP');
       var formatter = DateFormat('yyyy/MM/dd HH:mm', 'ja-JP');
       return formatter.format(createdAt);
     } catch (e) {

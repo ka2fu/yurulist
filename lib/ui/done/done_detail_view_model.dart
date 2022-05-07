@@ -17,16 +17,6 @@ class DoneDetailViewModel extends ChangeNotifier {
   late Todo _todo;
   Todo get todo => _todo;
 
-  // void setTitle(String title) {
-  //   _todo.title = title;
-  //   notifyListeners();
-  // }
-
-  // void setScore(int score) {
-  //   _todo.score = score;
-  //   notifyListeners();
-  // }
-
   void setState(String state) {
     _todo.state = state;
     notifyListeners();
