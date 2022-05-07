@@ -16,7 +16,8 @@ class Todo {
     'et': 'earliestTodayTime',
     'ey': 'earliestYesterdayTime',
     'tds': 'totalDoneScore',
-    'et-str': 'earliestTodayTimeString',
+    'et-str': 'earliestTodayTimeString', 
+    // 'limit': 'routineLimit',
   };
 
   static findState(String str) {

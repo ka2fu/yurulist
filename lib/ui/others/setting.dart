@@ -21,6 +21,9 @@ class SettingPage extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
+  static const List<String> types = ['expire', 'limit'];
+  static const List<String> tmpTypes = ['tmp-ex', 'tmp-lim'];
+
   void _showUpdateDialog(BuildContext context) {
     showDialog(
         context: context,
@@ -41,7 +44,7 @@ class SettingPage extends StatelessWidget {
                 child: Text(
                   '更新',
                   style: TextStyle(
-                    color: Theme.of(context).primaryColor,
+                    color: Theme.of(context).errorColor,
                   ),
                 ),
                 onPressed: () => _update(context),
@@ -51,25 +54,16 @@ class SettingPage extends StatelessWidget {
         });
   }
 
-  void _update(BuildContext context) {
+  Future<void> _update(BuildContext context) async {
     Utils.showIndicator(context);
-    Preference.setPeriod(SliderField.period);
-    Utils.goToHomeScreen(context, HomePage(removeUntilIndex: TodoList.index));
-  }
 
-  Future _buildTotalDoneScore(BuildContext context) async {
-    late int totalDoneScore;
-    await Preference.getIntValue(Todo.findState('tds')).then((value) {
-      totalDoneScore = value;
+    tmpTypes.asMap().forEach((int index, String tmpType) async {
+      await Preference.getIntValue(tmpType).then((value) {
+        Preference.setRowInt(Setting.findState(types[index]), value);
+      });
     });
 
-    return Text(
-      totalDoneScore.toString(),
-      style: TextStyle(
-        color: Theme.of(context).primaryColor,
-        fontWeight: FontWeight.bold,
-      ),
-    );
+    Utils.goToHomeScreen(context, HomePage(removeUntilIndex: TodoList.index));
   }
 
   @override
@@ -84,13 +78,14 @@ class SettingPage extends StatelessWidget {
       ),
       body: Center(
         child: ListView(
-          // mainAxisAlignment: MainAxisAlignment.center,
           padding: const EdgeInsets.all(25),
           children: <Widget>[
             const SizedBox(height: 64),
             _showTotalScore(context),
             const SizedBox(height: 40),
-            const SliderField(),
+            SliderField(type: types[0]),
+            const SizedBox(height: 40),
+            SliderField(type: types[1]),
             const SizedBox(height: 64),
             _buildUpdateButton(context),
           ],
@@ -151,37 +146,54 @@ class SettingPage extends StatelessWidget {
 }
 
 class SliderField extends StatefulWidget {
-  const SliderField({Key? key}) : super(key: key);
+  final String type;
 
-  static int _period = 1;
-  static int get period => _period;
-  static void setPeriod(int value) {
-    _period = value;
-  }
+  const SliderField({
+    Key? key,
+    required this.type,
+  }) : super(key: key);
 
   @override
   _SliderFieldState createState() => _SliderFieldState();
 }
 
 class _SliderFieldState extends State<SliderField> {
-  int _period = SliderField.period;
+  late String _type;
+  late String _tmpKey;
+  late int _max;
+  late String _message;
+  late String _unit;
+  int _tmpValue = 1;
+  int _value = 1;
+
+  /// list<value, message, unit, tmpKey>
+  final Map<String, List<dynamic>> types = {
+    'expire': [7, 'ToDoリスト終了までの期間：', '日', 'tmp-ex'],
+    'limit': [10, '習慣リストの最大個数：', '個', 'tmp-lim'],
+  };
 
   @override
   void initState() {
     super.initState();
+    _type = widget.type;
+    _max = types[_type]![0];
+    _message = types[_type]![1];
+    _unit = types[_type]![2];
+    _tmpKey = types[_type]![3];
+
     Future(() async {
-      await Preference.getIntValue(Setting.findState('expire')).then((value) {
-        // debugPrint('expire period: $value');
+      await Preference.getIntValue(Setting.findState(_type)).then((value) {
         if (value == 0) {
           setState(() {
-            _period = 1;
+            _value = 1;
           });
         } else {
           setState(() {
-            _period = value;
+            _value = value;
           });
         }
       });
+      _tmpValue = _value;
     });
   }
 
@@ -192,33 +204,31 @@ class _SliderFieldState extends State<SliderField> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          // const Text('ToDoリスト終了までの期間：'),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const Text('ToDoリスト終了までの期間：'),
+              Text(_message),
               SizedBox(
                 width: 30,
                 height: 32,
                 child: FittedBox(
                   fit: BoxFit.contain,
                   child: Text(
-                    // '${SliderField.period}',
-                    _period.toString(),
+                    _tmpValue.toString(),
                     style: const TextStyle(
                       fontSize: 24,
                     ),
                   ),
                 ),
               ),
-              const SizedBox(
+              SizedBox(
                 width: 20,
                 height: 32,
                 child: FittedBox(
                   fit: BoxFit.contain,
                   child: Text(
-                    '日',
-                    style: TextStyle(
+                    _unit,
+                    style: const TextStyle(
                       fontSize: 24,
                     ),
                   ),
@@ -233,35 +243,22 @@ class _SliderFieldState extends State<SliderField> {
                 // flex: 15,
                 child: Container(
                   child: Slider(
-                    value: _period.toDouble(),
+                    value: _tmpValue.toDouble(),
                     onChanged: (value) {
                       setState(() {
-                        _period = value.toInt();
+                        _tmpValue = value.toInt();
                       });
-                      SliderField.setPeriod(_period);
+                      Preference.setRowInt(_tmpKey, _tmpValue);
                     },
-                    label: '$_period',
+                    label: '$_tmpValue',
                     min: 1,
-                    max: 7,
+                    max: _max.toDouble(),
                     activeColor: Theme.of(context).primaryColor,
                     inactiveColor: Colors.grey[300],
-                    divisions: 6,
+                    divisions: _max - 1,
                   ),
                 ),
               ),
-              // Expanded(
-              //   flex: 2,
-              //   // child: CircleContainer(score: _period),
-              //   child: FittedBox(
-              //     fit: BoxFit.contain,
-              //     child: Text(
-              //       '$_period日',
-              //       style: const TextStyle(
-              //         fontSize: 32,
-              //       ),
-              //     ),
-              //   ),
-              // ),
             ],
           ),
         ],
@@ -269,52 +266,3 @@ class _SliderFieldState extends State<SliderField> {
     );
   }
 }
-
-// class CircleContainer extends StatefulWidget {
-//   final int score;
-
-//   const CircleContainer({
-//     Key? key,
-//     required this.score,
-//   }) : super(key: key);
-
-//   @override
-//   _CircleContainerState createState() => _CircleContainerState();
-// }
-
-// class _CircleContainerState extends State<CircleContainer> {
-//   final _key = GlobalKey();
-//   double _width = 0; // ← lateだとダメ
-
-//   @override
-//   void initState() {
-//     SchedulerBinding.instance!.addPostFrameCallback((_) {
-//       setState(() {
-//         _width = _key.currentContext!.size!.width;
-//       });
-//     });
-//     super.initState();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       key: _key,
-//       width: _width,
-//       height: _width,
-//       child: Center(
-//         child: Text(
-//           // widget.score.toString(),
-//           '${widget.score.toString()}日',
-//           style: const TextStyle(
-//             color: Colors.white,
-//             fontWeight: FontWeight.bold,
-//           ),
-//         ),
-//       ),
-//       decoration: BoxDecoration(
-//           color: Theme.of(context).primaryColor,
-//           borderRadius: BorderRadius.circular(_width / 2)),
-//     );
-//   }
-// }

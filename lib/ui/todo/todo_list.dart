@@ -12,6 +12,7 @@ import 'package:yuruli/ui/todo/todo_list_view_model.dart';
 import 'package:yuruli/ui/others/setting.dart';
 import 'package:yuruli/ui/others/help.dart';
 import 'package:yuruli/util/home_utils.dart';
+import 'package:yuruli/util/detail_utils.dart';
 
 class TodoList extends StatelessWidget {
   static int get index => 1;
@@ -44,13 +45,11 @@ class _TodoListPage extends StatelessWidget {
     final vm = Provider.of<TodoListViewModel>(context);
 
     late int totalDoneScore;
-    // debugPrint('isExpired? 1: ${vm.isExpired.toString()}');
     late String earliestTodoTime;
 
     Future.delayed(
         Duration.zero,
         () async => {
-              // debugPrint('isExpired? 2: ${vm.isExpired.toString()}'),
               await Preference.getIntValue(Todo.findState('tds'))
                   .then((value) => {
                         totalDoneScore = value,
@@ -58,12 +57,12 @@ class _TodoListPage extends StatelessWidget {
               await Preference.getStringValue(Todo.findState('et-str'))
                   .then((value) => {
                         earliestTodoTime = value,
-                  }),
+                      }),
             }).then((_) => {
-          // debugPrint('isExpired? 3: ${vm.isExpired.toString()}'),
           if (vm.isExpired)
             {
-              Utils.showTotalDoneScoreDialog(context, totalDoneScore, earliestTodoTime),
+              Utils.showTotalDoneScoreDialog(
+                  context, totalDoneScore, earliestTodoTime),
               Preference.removeValue(Todo.findState('tds')),
               vm.setExpired(false),
             }

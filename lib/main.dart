@@ -64,7 +64,6 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> _pages = [
     const DoneList(),
-    // TodoList(),
     const TodoList(),
     const YesterdayList(),
     const RoutineList(),

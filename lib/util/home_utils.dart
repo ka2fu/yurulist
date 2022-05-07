@@ -5,7 +5,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:yuruli/ui/others/help.dart';
 import 'package:yuruli/ui/others/setting.dart';
 
-// ↓使えない
 class HomeAppBar extends AppBar {
   final String screenTitle;
 
@@ -73,6 +72,35 @@ class Utils {
       ),
       (route) => false,
     );
+  }
+
+  static showCustomLimitDialog(BuildContext context, int limit) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: FittedBox(
+              fit: BoxFit.fitWidth,
+              child: Text(
+                '*設定できる習慣は$limit個までです。',
+                style: TextStyle(
+                  color: Theme.of(context).errorColor,
+                ),
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: Text(
+                  'OK',
+                  style: TextStyle(
+                    color: Theme.of(context).hintColor,
+                  ),
+                ),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        });
   }
 
   static Future showTotalDoneScoreDialog(

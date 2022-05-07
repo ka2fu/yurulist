@@ -57,7 +57,7 @@ class _YesterdayDetailPage extends StatelessWidget {
                 child: Text(
                   '戻す',
                   style: TextStyle(
-                    color: Theme.of(context).primaryColor,
+                    color: Theme.of(context).errorColor,
                   ),
                 ),
                 onPressed: () => _update(context, vm),

@@ -45,7 +45,6 @@ class DoneListViewModel extends ChangeNotifier {
 
   void setExpired(bool b) {
     _isExpired = b;
-    // debugPrint('☆☆☆☆☆☆☆☆☆isExpired state changed: $_isExpired☆☆☆☆☆☆☆☆☆☆☆');
     notifyListeners();
   }
 

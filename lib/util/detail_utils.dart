@@ -57,6 +57,9 @@ class StatusField extends StatelessWidget {
 class Setting {
   static Map<String, String> states = {
     'expire': 'expirePeriod',
+    'tmp-ex': 'tmpExpirePeriod',
+    'limit': 'routineLimit',
+    'tmp-lim': 'tmpRoutineLimit',
   };
 
   static findState(String str) {

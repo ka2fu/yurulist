@@ -12,6 +12,7 @@ import 'package:yuruli/ui/routine/routine_list_view_model.dart';
 import 'package:yuruli/ui/others/setting.dart';
 import 'package:yuruli/ui/others/help.dart';
 import 'package:yuruli/util/home_utils.dart';
+import 'package:yuruli/util/detail_utils.dart';
 
 class RoutineList extends StatelessWidget {
   static int get index => 3;
@@ -21,8 +22,9 @@ class RoutineList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final vm = RoutineListViewModel(TodoRepository(TodoDatabase()));
-    final page = _TodoListPage();
-    final appBar = HomeAppBar(screenTitle: '習慣');
+    final page = _RoutineListPage();
+    final appBar = HomeAppBar(screenTitle: '習慣リスト');
+    late int limit;
 
     return ChangeNotifierProvider(
       create: (_) => vm,
@@ -30,7 +32,20 @@ class RoutineList extends StatelessWidget {
         appBar: appBar.builder(context),
         body: page,
         floatingActionButton: FloatingActionButton(
-          onPressed: () => page._goToTodoDetailScreen(context, Todo(), true),
+          onPressed: () async => {
+            await Preference.getIntValue(Setting.findState('limit'))
+                .then((value) {
+              limit = value;
+            }),
+            if (vm.todos.length < limit)
+              {
+                page._goToDetailScreen(context, Todo(), true),
+              }
+            else
+              {
+                Utils.showCustomLimitDialog(context, limit),
+              }
+          },
           child: const Icon(Icons.add),
         ),
       ),
@@ -38,32 +53,33 @@ class RoutineList extends StatelessWidget {
   }
 }
 
-class _TodoListPage extends StatelessWidget {
+class _RoutineListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final vm = Provider.of<RoutineListViewModel>(context);
 
     late int totalDoneScore;
-    // debugPrint('isExpired? 1: ${vm.isExpired.toString()}');
     late String earliestTodoTime;
 
     Future.delayed(
         Duration.zero,
         () async => {
-              // debugPrint('isExpired? 2: ${vm.isExpired.toString()}'),
+          // debugPrint('in routein list page'),
               await Preference.getIntValue(Todo.findState('tds'))
                   .then((value) => {
                         totalDoneScore = value,
                       }),
               await Preference.getStringValue(Todo.findState('et-str'))
                   .then((value) => {
+                              debugPrint('in routein list page'),
                         earliestTodoTime = value,
-                  }),
+                      }),
             }).then((_) => {
-          // debugPrint('isExpired? 3: ${vm.isExpired.toString()}'),
           if (vm.isExpired)
             {
-              Utils.showTotalDoneScoreDialog(context, totalDoneScore, earliestTodoTime),
+                        debugPrint('in routein list page **** expired ****'),
+              Utils.showTotalDoneScoreDialog(
+                  context, totalDoneScore, earliestTodoTime),
               Preference.removeValue(Todo.findState('tds')),
               vm.setExpired(false),
             }
@@ -75,7 +91,7 @@ class _TodoListPage extends StatelessWidget {
 
     if (vm.todos.isEmpty) {
       return Center(
-        child: Text('ToDoリストを追加して',
+        child: Text('習慣リストを追加してください。',
             style: TextStyle(color: Theme.of(context).hintColor)),
       );
     }
@@ -96,23 +112,6 @@ class _TodoListPage extends StatelessWidget {
           todo.title,
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
-        leading: Container(
-          width: 30,
-          height: 30,
-          child: Center(
-            child: Text(
-              todo.getScore().toString(),
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
-            borderRadius: BorderRadius.circular(15),
-          ),
-        ),
         trailing: Text(
           todo.getCreatedAt(),
           style: TextStyle(
@@ -120,14 +119,14 @@ class _TodoListPage extends StatelessWidget {
             color: Theme.of(context).hintColor,
           ),
         ),
-        onTap: () => _goToTodoDetailScreen(context, todo, false),
+        onTap: () => _goToDetailScreen(context, todo, false),
       ),
     );
   }
 
-  void _goToTodoDetailScreen(BuildContext context, Todo todo, bool isNew) {
+  void _goToDetailScreen(BuildContext context, Todo todo, bool isNew) {
     var route = MaterialPageRoute(
-      settings: const RouteSettings(name: 'ui.todo_detail'),
+      settings: const RouteSettings(name: 'ui.routine_detail'),
       builder: (BuildContext context) => RoutineDetailPage(todo, isNew),
     );
     Navigator.push(context, route);

@@ -41,9 +41,9 @@ class Preference {
     prefs.setInt(key, _value);
   }
 
-  static void setPeriod(int value) async {
+  static void setRowInt(String key, int value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setInt(Setting.findState('expire'), value);
+    prefs.setInt(key, value);
   }
 
   static void setTimeInt(String key, int value) async {

@@ -10,7 +10,9 @@ class RoutineListViewModel extends ChangeNotifier {
   late final TodoRepository _repository;
 
   RoutineListViewModel(this._repository) {
-    loadTodos();
+    checkExpireTime().then((_) {
+      loadTodos();
+    });
   }
 
   List<Todo> _todos = [];
@@ -43,7 +45,6 @@ class RoutineListViewModel extends ChangeNotifier {
 
   void setExpired(bool b) {
     _isExpired = b;
-    // debugPrint('☆☆☆☆☆☆☆☆☆isExpired state changed: $_isExpired☆☆☆☆☆☆☆☆☆☆☆');
     notifyListeners();
   }
 

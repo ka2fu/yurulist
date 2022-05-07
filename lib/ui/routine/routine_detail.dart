@@ -67,7 +67,7 @@ class _TodoDetailPage extends StatelessWidget {
                 child: Text(
                   isNew ? '保存' : '更新',
                   style: TextStyle(
-                    color: Theme.of(context).primaryColor,
+                    color: Theme.of(context).errorColor,
                   ),
                 ),
                 onPressed: () => {
@@ -115,13 +115,12 @@ class _TodoDetailPage extends StatelessWidget {
 
   void _changeStatus(RoutineDetailViewModel vm) {
     vm.setTitle(TitleField.title);
-    vm.setScore(SliderField.score);
+    vm.setScore(0);
   }
 
   void _save(BuildContext context, RoutineDetailViewModel vm) async {
     Utils.showIndicator(context);
     _changeStatus(vm);
-    // vm.setScore(SliderField.score);
     await vm.save();
     Utils.goToHomeScreen(context, HomePage(removeUntilIndex: RoutineList.index));
   }
@@ -133,12 +132,12 @@ class _TodoDetailPage extends StatelessWidget {
     Utils.goToHomeScreen(context, HomePage(removeUntilIndex: RoutineList.index));
   }
 
-  void _done(BuildContext context, RoutineDetailViewModel vm) async {
-    Utils.showIndicator(context);
-    await vm.done();
-    await vm.getTotalDoneScore(); // debug用
-    Utils.goToHomeScreen(context, HomePage(removeUntilIndex: RoutineList.index));
-  }
+  // void _done(BuildContext context, RoutineDetailViewModel vm) async {
+  //   Utils.showIndicator(context);
+  //   await vm.done();
+  //   await vm.getTotalDoneScore(); // debug用
+  //   Utils.goToHomeScreen(context, HomePage(removeUntilIndex: RoutineList.index));
+  // }
 
   void _delete(BuildContext context, RoutineDetailViewModel vm) async {
     Utils.showIndicator(context);
@@ -158,7 +157,7 @@ class _TodoDetailPage extends StatelessWidget {
           icon: const FaIcon(FontAwesomeIcons.angleLeft),
         ),
         title: Text(
-          vm.isNew ? '新規ToDoを作成' : 'ToDoを編集',
+          vm.isNew ? '新しい習慣を作成' : '習慣を編集',
           style: const TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -173,9 +172,9 @@ class _TodoDetailPage extends StatelessWidget {
             children: <Widget>[
               TitleField(vm: vm),
               const SizedBox(height: 20),
-              SliderField(vm: vm),
+              // SliderField(vm: vm),
               const SizedBox(height: 60),
-              _buildDoneButton(context, vm),
+              // _buildDoneButton(context, vm),
               _buildSaveButton(context, vm),
               _buildDeleteButton(context, vm),
             ],
@@ -185,47 +184,44 @@ class _TodoDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildDoneButton(BuildContext context, RoutineDetailViewModel vm) {
-    if (vm.isNew) return const SizedBox(height: 0);
+  // Widget _buildDoneButton(BuildContext context, RoutineDetailViewModel vm) {
+  //   if (vm.isNew) return const SizedBox(height: 0);
 
-    final _width = MediaQuery.of(context).size.width;
-    // debugPrint('mediaquery width: ${_width.rune@timeType.toString()}');
+  //   final _width = MediaQuery.of(context).size.width;
 
-    return Column(
-      children: <Widget>[
-        ElevatedButton(
-          onPressed: () => {
-            // vm.setState(Todo.findState('done')),
-            // _update(context, vm),
-            _done(context, vm),
-          },
-          child: Container(
-            width: _width * 0.65,
-            padding: const EdgeInsets.only(top: 8, bottom: 8),
-            child: Center(
-              child: Text(
-                '達成!!',
-                style: TextStyle(
-                  color: Theme.of(context).primaryColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 32,
-                ),
-              ),
-            ),
-          ),
-          style: ElevatedButton.styleFrom(
-            side: BorderSide(
-              color: Theme.of(context).primaryColor,
-              width: 2,
-            ),
-            primary: Colors.white,
-            onPrimary: Theme.of(context).primaryColorLight,
-          ),
-        ),
-        const SizedBox(height: 60),
-      ],
-    );
-  }
+  //   return Column(
+  //     children: <Widget>[
+  //       ElevatedButton(
+  //         onPressed: () => {
+  //           _done(context, vm),
+  //         },
+  //         child: Container(
+  //           width: _width * 0.65,
+  //           padding: const EdgeInsets.only(top: 8, bottom: 8),
+  //           child: Center(
+  //             child: Text(
+  //               '達成!!',
+  //               style: TextStyle(
+  //                 color: Theme.of(context).primaryColor,
+  //                 fontWeight: FontWeight.bold,
+  //                 fontSize: 32,
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //         style: ElevatedButton.styleFrom(
+  //           side: BorderSide(
+  //             color: Theme.of(context).primaryColor,
+  //             width: 2,
+  //           ),
+  //           primary: Colors.white,
+  //           onPrimary: Theme.of(context).primaryColorLight,
+  //         ),
+  //       ),
+  //       const SizedBox(height: 60),
+  //     ],
+  //   );
+  // }
 
   Widget _buildSaveButton(BuildContext context, RoutineDetailViewModel vm) {
     return ElevatedButton(
@@ -289,7 +285,7 @@ class TitleField extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerLeft,
             child: Text(
-              'ToDo',
+              '習慣',
               style: TextStyle(
                 color: Theme.of(context).hintColor,
               ),
@@ -303,7 +299,7 @@ class TitleField extends StatelessWidget {
             maxLength: 30, // 文字数制限
             keyboardType: TextInputType.multiline, // 文字数が多い時改行して複数行表示
             maxLines: null, // 文字数が多い時改行して複数行表示
-            validator: (value) => value!.isEmpty ? 'ToDoを入力して' : null,
+            validator: (value) => value!.isEmpty ? '習慣を入力して' : null,
             onChanged: (value) => {
               // vm.setTitle(value)
               _title = value,
@@ -319,138 +315,138 @@ class TitleField extends StatelessWidget {
   }
 }
 
-class SliderField extends StatefulWidget {
-  final vm;
+// class SliderField extends StatefulWidget {
+//   final vm;
 
-  const SliderField({
-    Key? key,
-    required this.vm,
-  }) : super(key: key);
+//   const SliderField({
+//     Key? key,
+//     required this.vm,
+//   }) : super(key: key);
 
-  static int _score = 1;
-  static int get score => _score;
-  static void setScore(int value) {
-    _score = value;
-  }
+//   static int _score = 1;
+//   static int get score => _score;
+//   static void setScore(int value) {
+//     _score = value;
+//   }
 
-  @override
-  _SliderField createState() => _SliderField();
-}
+//   @override
+//   _SliderField createState() => _SliderField();
+// }
 
-class _SliderField extends State<SliderField> {
-  late int _score;
-  // late var vm;
+// class _SliderField extends State<SliderField> {
+//   late int _score;
+//   // late var vm;
 
-  @override
-  void initState() {
-    super.initState();
-    final _vm = widget.vm;
-    if (!_vm.isNew) {
-      _score = _vm.todo.score;
-    } else {
-      _score = 1;
-    }
-  }
+//   @override
+//   void initState() {
+//     super.initState();
+//     final _vm = widget.vm;
+//     if (!_vm.isNew) {
+//       _score = _vm.todo.score;
+//     } else {
+//       _score = 1;
+//     }
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    // var vm = Provider.of<TodoDetailViewModel>(context);
-    // if (!vm.isNew) _score = vm.todo.score;
+//   @override
+//   Widget build(BuildContext context) {
+//     // var vm = Provider.of<TodoDetailViewModel>(context);
+//     // if (!vm.isNew) _score = vm.todo.score;
 
-    return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Expanded(
-            flex: 3,
-            child: Container(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'スコア',
-                style: TextStyle(
-                  color: Theme.of(context).hintColor,
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 15,
-            child: Container(
-              child: Slider(
-                value: _score.toDouble(),
-                onChanged: (value) {
-                  // _score = value.toInt();
-                  // vm.setScore(_score);
-                  setState(() {
-                    _score = value.toInt();
-                  });
-                  SliderField.setScore(_score);
-                  debugPrint('_score: $_score');
-                  debugPrint('static score: ${SliderField.score}');
-                },
-                label: '$_score',
-                min: 1,
-                max: 5,
-                activeColor: Theme.of(context).primaryColor,
-                inactiveColor: Colors.grey[300],
-                divisions: 4,
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: CircleContainer(score: _score),
-          ),
-        ],
-      ),
-    );
-  }
-}
+//     return Container(
+//       child: Row(
+//         mainAxisAlignment: MainAxisAlignment.start,
+//         children: <Widget>[
+//           Expanded(
+//             flex: 3,
+//             child: Container(
+//               alignment: Alignment.centerLeft,
+//               child: Text(
+//                 'スコア',
+//                 style: TextStyle(
+//                   color: Theme.of(context).hintColor,
+//                 ),
+//               ),
+//             ),
+//           ),
+//           Expanded(
+//             flex: 15,
+//             child: Container(
+//               child: Slider(
+//                 value: _score.toDouble(),
+//                 onChanged: (value) {
+//                   // _score = value.toInt();
+//                   // vm.setScore(_score);
+//                   setState(() {
+//                     _score = value.toInt();
+//                   });
+//                   SliderField.setScore(_score);
+//                   debugPrint('_score: $_score');
+//                   debugPrint('static score: ${SliderField.score}');
+//                 },
+//                 label: '$_score',
+//                 min: 1,
+//                 max: 5,
+//                 activeColor: Theme.of(context).primaryColor,
+//                 inactiveColor: Colors.grey[300],
+//                 divisions: 4,
+//               ),
+//             ),
+//           ),
+//           Expanded(
+//             flex: 2,
+//             child: CircleContainer(score: _score),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
-class CircleContainer extends StatefulWidget {
-  final int score;
+// class CircleContainer extends StatefulWidget {
+//   final int score;
 
-  const CircleContainer({
-    Key? key,
-    required this.score,
-  }) : super(key: key);
+//   const CircleContainer({
+//     Key? key,
+//     required this.score,
+//   }) : super(key: key);
 
-  @override
-  _CircleContainerState createState() => _CircleContainerState();
-}
+//   @override
+//   _CircleContainerState createState() => _CircleContainerState();
+// }
 
-class _CircleContainerState extends State<CircleContainer> {
-  final _key = GlobalKey();
-  double _width = 0; // ← lateだとダメ
+// class _CircleContainerState extends State<CircleContainer> {
+//   final _key = GlobalKey();
+//   double _width = 0; // ← lateだとダメ
 
-  @override
-  void initState() {
-    SchedulerBinding.instance!.addPostFrameCallback((_) {
-      setState(() {
-        _width = _key.currentContext!.size!.width;
-      });
-    });
-    super.initState();
-  }
+//   @override
+//   void initState() {
+//     SchedulerBinding.instance!.addPostFrameCallback((_) {
+//       setState(() {
+//         _width = _key.currentContext!.size!.width;
+//       });
+//     });
+//     super.initState();
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      key: _key,
-      width: _width,
-      height: _width,
-      child: Center(
-        child: Text(
-          widget.score.toString(),
-          style: const TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-      decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor,
-          borderRadius: BorderRadius.circular(_width / 2)),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       key: _key,
+//       width: _width,
+//       height: _width,
+//       child: Center(
+//         child: Text(
+//           widget.score.toString(),
+//           style: const TextStyle(
+//             color: Colors.white,
+//             fontWeight: FontWeight.bold,
+//           ),
+//         ),
+//       ),
+//       decoration: BoxDecoration(
+//           color: Theme.of(context).primaryColor,
+//           borderRadius: BorderRadius.circular(_width / 2)),
+//     );
+//   }
+// }

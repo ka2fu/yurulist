@@ -89,7 +89,7 @@ class RoutineDetailViewModel extends ChangeNotifier {
     // await Preference.getIntValue(Todo.findState('et'))
     //     .then((int value) => debugPrint(value.toString()));
 
-    _todo.state = Todo.findState('today');
+    _todo.state = Todo.findState('routine');
     return await _repository.insert(_todo);
   }
 

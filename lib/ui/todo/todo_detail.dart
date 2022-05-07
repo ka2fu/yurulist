@@ -67,7 +67,7 @@ class _TodoDetailPage extends StatelessWidget {
                 child: Text(
                   isNew ? '保存' : '更新',
                   style: TextStyle(
-                    color: Theme.of(context).primaryColor,
+                    color: Theme.of(context).errorColor,
                   ),
                 ),
                 onPressed: () => {

@@ -59,7 +59,7 @@ class _DoneDetailPage extends StatelessWidget {
                 child: Text(
                   '変更',
                   style: TextStyle(
-                    color: Theme.of(context).primaryColor,
+                    color: Theme.of(context).errorColor,
                   ),
                 ),
                 onPressed: () => _update(context, vm),
